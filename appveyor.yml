@@ -29,17 +29,23 @@ install:
   - cd jdk8u-jdk8u-dev
   - hg pull
   - hg up
-  - bash -c "./common/bin/hgforest.sh pull > pull_out.txt 2>&1"
-  - type pull_out.txt
-  - bash -c "./common/bin/hgforest.sh up > up_out.txt 2>&1"
-  - type up_out.txt
-  - bash -c "../jdk8u-win-ci/patches.sh > patches_out.txt 2>&1"
-  - type patches_out.txt
+  - bash -c "./common/bin/hgforest.sh pull"
+  - bash -c "./common/bin/hgforest.sh up"
+  - hg id
+  - cd corba && hg id && cd ..
+  - cd hotspot && hg id && cd ..
+  - cd jaxp && hg id && cd ..
+  - cd jaxws && hg id && cd ..
+  - cd jdk && hg id && cd ..
+  - cd langtools && hg id && cd ..
+  - cd nashorn && hg id && cd ..
+  - hg import --no-commit "c:/projects/jdk8u-win-ci/readme.patch"
+  - hg status
 
 build_script:
   - cd "c:/projects/jdk8u-jdk8u-dev"
   - bash configure
-        --with-target-bits=32
+        --with-target-bits=64
         --with-toolchain-version=2010
         --with-boot-jdk=c:/projects/bootjdk
         --with-freetype-src=c:/projects/freetype2
