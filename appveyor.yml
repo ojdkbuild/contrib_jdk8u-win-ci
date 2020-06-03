@@ -31,14 +31,22 @@ install:
   - hg up
   - bash -c "./common/bin/hgforest.sh pull"
   - bash -c "./common/bin/hgforest.sh up"
+  - cd "c:/projects/jdk8u-jdk8u-dev/corba"
   - hg id
-  - cd corba && hg id && cd ..
-  - cd hotspot && hg id && cd ..
-  - cd jaxp && hg id && cd ..
-  - cd jaxws && hg id && cd ..
-  - cd jdk && hg id && cd ..
-  - cd langtools && hg id && cd ..
-  - cd nashorn && hg id && cd ..
+  - cd "c:/projects/jdk8u-jdk8u-dev/hotspot"
+  - hg id
+  - cd "c:/projects/jdk8u-jdk8u-dev/jaxp"
+  - hg id
+  - cd "c:/projects/jdk8u-jdk8u-dev/jaxws"
+  - hg id
+  - cd "c:/projects/jdk8u-jdk8u-dev/jdk"
+  - hg id
+  - cd "c:/projects/jdk8u-jdk8u-dev/langtools"
+  - hg id
+  - cd "c:/projects/jdk8u-jdk8u-dev/nashorn"
+  - hg id
+  - cd "c:/projects/jdk8u-jdk8u-dev"
+  - hg id
   - hg import --no-commit "c:/projects/jdk8u-win-ci/readme.patch"
   - hg status
 
