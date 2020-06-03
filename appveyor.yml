@@ -25,49 +25,16 @@ install:
   - git clone --depth=1 https://github.com/ojdkbuild/tools_bootjdk7.git bootjdk
   - git clone --depth=1 --branch VER-2-8-1 https://git.savannah.gnu.org/git/freetype/freetype2.git freetype2
   - set PATH=c:/projects/cygwin/bin;%PATH%;c:/projects/zip
-  # master
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv jdk8u-dev-* jdk8u-dev"
-  # corba  
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/corba/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv corba-* jdk8u-dev/corba"
-  # hotspot
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/hotspot/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv hotspot-* jdk8u-dev/hotspot"
-  # jaxp
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/jaxp/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv jaxp-* jdk8u-dev/jaxp"
-  # jaxws
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/jaxws/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv jaxws-* jdk8u-dev/jaxws"
-  # jdk
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/jdk/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv jdk-* jdk8u-dev/jdk"
-  # langtools
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/langtools/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv langtools-* jdk8u-dev/langtools"
-  # nashorn
-  - curl -LO http://hg.openjdk.java.net/jdk8u/jdk8u-dev/nashorn/archive/tip.zip
-  - unzip -q tip.zip
-  - del tip.zip
-  - bash -c "mv nashorn-* jdk8u-dev/nashorn"
+  - curl -LO https://builds.shipilev.net/workspaces/jdk8u-jdk8u-dev.tar.xz
+  - bash -c "tar xJf jdk8u-jdk8u-dev.tar.xz"
+  - cd jdk8u-jdk8u-dev
+  - hg pull
+  - hg up
+  - bash -c "./common/bin/hgforest.sh pull"
+  - bash -c "./common/bin/hgforest.sh up"
 
 build_script:
-  - cd "c:/projects/jdk8u-dev"
+  - cd "c:/projects/jdk8u-jdk8u-dev"
   - bash configure
         --with-target-bits=64
         --with-toolchain-version=2010
