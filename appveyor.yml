@@ -75,4 +75,5 @@ build_script:
         --with-freetype-src=c:/projects/freetype2
         --with-num-cores=1
   - bash -c "make images LOG=info"
-  - "c:/projects/jdk8u-dev/build/windows-x86_64-normal-server-release/images/j2sdk-image/bin/java.exe" -version
+  - c:\projects\jdk8u-dev\build\windows-x86_64-normal-server-release\images\j2sdk-image\bin\java.exe -version
+
