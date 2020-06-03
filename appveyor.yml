@@ -18,7 +18,7 @@ clone_folder: c:\projects\jdk8u-win-ci
 
 build: off
 
-installa
+install:
   - cd "c:/projects"
   - git clone --depth=1 https://github.com/ojdkbuild/tools_cygwin_jdk11.git cygwin
   - git clone --depth=1 https://github.com/ojdkbuild/tools_zip.git zip
