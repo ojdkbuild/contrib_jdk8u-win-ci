@@ -21,26 +21,28 @@ build: off
 install:
   - cd "c:/projects"
   - git clone --depth=1 https://github.com/ojdkbuild/tools_cygwin_jdk11.git cygwin
-  - git clone --depth=1 https://github.com/ojdkbuild/tools_zip.git zip
   - git clone --depth=1 https://github.com/ojdkbuild/tools_bootjdk7.git bootjdk
   - git clone --depth=1 --branch VER-2-8-1 https://git.savannah.gnu.org/git/freetype/freetype2.git freetype2
-  - set PATH=c:/projects/cygwin/bin;%PATH%;c:/projects/zip
+  - set PATH=c:/projects/cygwin/bin;%PATH%
   - curl -LO https://builds.shipilev.net/workspaces/jdk8u-jdk8u-dev.tar.xz
   - bash -c "tar xJf jdk8u-jdk8u-dev.tar.xz"
   - cd jdk8u-jdk8u-dev
   - hg pull
   - hg up
-  - bash -c "./common/bin/hgforest.sh pull"
-  - bash -c "./common/bin/hgforest.sh up"
+  - bash -c "./common/bin/hgforest.sh pull > pull_out.txt 2>&1"
+  - type pull_out.txt
+  - bash -c "./common/bin/hgforest.sh up > up_out.txt 2>&1"
+  - type up_out.txt
+  - bash -c "../jdk8u-win-ci/patches.sh > patches_out.txt 2>&1"
+  - type patches_out.txt
 
 build_script:
   - cd "c:/projects/jdk8u-jdk8u-dev"
   - bash configure
-        --with-target-bits=64
+        --with-target-bits=32
         --with-toolchain-version=2010
         --with-boot-jdk=c:/projects/bootjdk
         --with-freetype-src=c:/projects/freetype2
-        --with-num-cores=1
   - bash -c "make images LOG=info"
   - c:\projects\jdk8u-dev\build\windows-x86_64-normal-server-release\images\j2sdk-image\bin\java.exe -version
 
