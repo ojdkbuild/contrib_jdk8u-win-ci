@@ -21,8 +21,10 @@ build: off
 install:
   - cd "c:/projects"
   - git clone --depth=1 https://github.com/ojdkbuild/tools_cygwin_jdk11.git cygwin
-  - git clone --depth=1 https://github.com/ojdkbuild/tools_bootjdk7.git bootjdk
-  - git clone --depth=1 --branch VER-2-8-1 https://git.savannah.gnu.org/git/freetype/freetype2.git freetype2
+  - git clone --depth=1 https://github.com/ojdkbuild/tools_bootjdk7.git bootjdk7
+  - git clone --depth=1 https://github.com/ojdkbuild/tools_bootjdk7_32.git bootjdk7_32
+  - git clone --depth=1 https://github.com/ojdkbuild/tools_toolchain_msvcr100.git msvcr100
+  - git clone --depth=1 --branch VER-2-8-1 -q https://git.savannah.gnu.org/git/freetype/freetype2.git freetype2
   - set PATH=c:/projects/cygwin/bin;%PATH%
   - curl -LO https://builds.shipilev.net/workspaces/jdk8u-jdk8u-dev.tar.xz
   - bash -c "tar xJf jdk8u-jdk8u-dev.tar.xz"
@@ -31,6 +33,7 @@ install:
   - hg up
   - bash -c "./common/bin/hgforest.sh pull"
   - bash -c "./common/bin/hgforest.sh up"
+  - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/corba"
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/hotspot"
@@ -41,22 +44,28 @@ install:
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/jdk"
   - hg id
+  - hg import --no-commit "c:/projects/jdk8u-win-ci/jdk.patch"
+  - hg status
   - cd "c:/projects/jdk8u-jdk8u-dev/langtools"
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/nashorn"
-  - hg id
-  - cd "c:/projects/jdk8u-jdk8u-dev"
-  - hg id
-  - hg import --no-commit "c:/projects/jdk8u-win-ci/readme.patch"
-  - hg status
 
 build_script:
   - cd "c:/projects/jdk8u-jdk8u-dev"
   - bash configure
-        --with-target-bits=64
+        --with-target-bits=32
         --with-toolchain-version=2010
-        --with-boot-jdk=c:/projects/bootjdk
+        --with-msvcr-dll=c:/projects/msvcr100/x86/msvcr100.dll
+        --with-boot-jdk=c:/projects/bootjdk7_32
         --with-freetype-src=c:/projects/freetype2
   - bash -c "make images LOG=info"
   - c:\projects\jdk8u-dev\build\windows-x86_64-normal-server-release\images\j2sdk-image\bin\java.exe -version
+  - rd /s /q build
+  - bash configure
+        --with-target-bits=64
+        --with-toolchain-version=2010
+        --with-msvcr-dll=c:/projects/msvcr100/amd64/msvcr100.dll
+        --with-boot-jdk=c:/projects/bootjdk7
+        --with-freetype-src=c:/projects/freetype2
+  - bash -c "make images LOG=info"
 
