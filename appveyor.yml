@@ -59,7 +59,7 @@ build_script:
         --with-boot-jdk=c:/projects/bootjdk7_32
         --with-freetype-src=c:/projects/freetype2
   - bash -c "make images LOG=info"
-  - c:\projects\jdk8u-dev\build\windows-x86_64-normal-server-release\images\j2sdk-image\bin\java.exe -version
+  - build\windows-x86-normal-server-release\images\j2sdk-image\bin\java.exe -version
   - rd /s /q build
   - bash configure
         --with-target-bits=64
@@ -68,4 +68,5 @@ build_script:
         --with-boot-jdk=c:/projects/bootjdk7
         --with-freetype-src=c:/projects/freetype2
   - bash -c "make images LOG=info"
+  - build\windows-x86_64-normal-server-release\images\j2sdk-image\bin\java.exe -version
 
