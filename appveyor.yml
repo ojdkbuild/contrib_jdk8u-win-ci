@@ -60,7 +60,7 @@ build_script:
         --with-boot-jdk=c:/projects/bootjdk7_32
         --with-freetype-src=c:/projects/freetype2
   - bash -c "make images"
-  - build\windows-x86-normal-server-release\images\j2sdk-image\bin\java.exe -version
+  - build\windows-x86-normal-server-fastdebug\images\j2sdk-image\bin\java.exe -version
   - rd /s /q build
   - bash configure
         --with-debug-level=fastdebug
@@ -70,5 +70,5 @@ build_script:
         --with-boot-jdk=c:/projects/bootjdk7
         --with-freetype-src=c:/projects/freetype2
   - bash -c "make images"
-  - build\windows-x86_64-normal-server-release\images\j2sdk-image\bin\java.exe -version
+  - build\windows-x86_64-normal-server-fastdebug\images\j2sdk-image\bin\java.exe -version
 
