@@ -53,20 +53,22 @@ install:
 build_script:
   - cd "c:/projects/jdk8u-jdk8u-dev"
   - bash configure
+        --with-debug-level=fastdebug
         --with-target-bits=32
         --with-toolchain-version=2010
         --with-msvcr-dll=c:/projects/msvcr100/i586/msvcr100.dll
         --with-boot-jdk=c:/projects/bootjdk7_32
         --with-freetype-src=c:/projects/freetype2
-  - bash -c "make images LOG=info"
+  - bash -c "make images"
   - build\windows-x86-normal-server-release\images\j2sdk-image\bin\java.exe -version
   - rd /s /q build
   - bash configure
+        --with-debug-level=fastdebug
         --with-target-bits=64
         --with-toolchain-version=2010
         --with-msvcr-dll=c:/projects/msvcr100/amd64/msvcr100.dll
         --with-boot-jdk=c:/projects/bootjdk7
         --with-freetype-src=c:/projects/freetype2
-  - bash -c "make images LOG=info"
+  - bash -c "make images"
   - build\windows-x86_64-normal-server-release\images\j2sdk-image\bin\java.exe -version
 
