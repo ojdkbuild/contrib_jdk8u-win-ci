@@ -1,0 +1,31 @@
+
+# HG changeset patch
+# User mbaesken
+# Date 1575632549 -3600
+# Node ID 4309b6b4651648193c6ac3ed27f8329a00046b68
+# Parent  994c9af1b576aaad0c025c3bdb0c8c64a8d6a73b
+8235243: handle VS2017 15.9 and VS2019 in abstract_vm_version
+8235325: build failure on Linux after 8235243
+Reviewed-by: dholmes, mdoerr
+
+diff -r 994c9af1b576 -r 4309b6b46516 src/share/vm/runtime/vm_version.cpp
+--- a/src/share/vm/runtime/vm_version.cpp	Mon Nov 18 16:49:39 2019 +0100
++++ b/src/share/vm/runtime/vm_version.cpp	Fri Dec 06 12:42:29 2019 +0100
+@@ -230,6 +230,16 @@
+         #define HOTSPOT_BUILD_COMPILER "MS VC++ 15.7 (VS2017)"
+       #elif _MSC_VER == 1915
+         #define HOTSPOT_BUILD_COMPILER "MS VC++ 15.8 (VS2017)"
++      #elif _MSC_VER == 1916
++        #define HOTSPOT_BUILD_COMPILER "MS VC++ 15.9 (VS2017)"
++      #elif _MSC_VER == 1920
++        #define HOTSPOT_BUILD_COMPILER "MS VC++ 16.0 (VS2019)"
++      #elif _MSC_VER == 1921
++        #define HOTSPOT_BUILD_COMPILER "MS VC++ 16.1 (VS2019)"
++      #elif _MSC_VER == 1922
++        #define HOTSPOT_BUILD_COMPILER "MS VC++ 16.2 (VS2019)"
++      #elif _MSC_VER == 1923
++        #define HOTSPOT_BUILD_COMPILER "MS VC++ 16.3 (VS2019)"
+       #else
+         #define HOTSPOT_BUILD_COMPILER "unknown MS VC++:" XSTR(_MSC_VER)
+       #endif
+
