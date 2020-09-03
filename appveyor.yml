@@ -38,6 +38,8 @@ install:
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/hotspot"
   - hg id
+  - hg import "c:/projects/jdk8u-win-ci/8252573.patch"
+  - hg status
   - cd "c:/projects/jdk8u-jdk8u-dev/jaxp"
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/jaxws"
