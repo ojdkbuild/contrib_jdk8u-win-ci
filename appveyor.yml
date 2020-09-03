@@ -38,6 +38,7 @@ install:
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/hotspot"
   - hg id
+  - hg import "c:/projects/jdk8u-win-ci/8221408.patch"
   - hg import --no-commit "c:/projects/jdk8u-win-ci/8252573.patch"
   - hg status
   - cd "c:/projects/jdk8u-jdk8u-dev/jaxp"
@@ -46,8 +47,6 @@ install:
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/jdk"
   - hg id
-  - hg import --no-commit "c:/projects/jdk8u-win-ci/8202076_8u_c89.patch"
-  - hg status
   - cd "c:/projects/jdk8u-jdk8u-dev/langtools"
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/nashorn"

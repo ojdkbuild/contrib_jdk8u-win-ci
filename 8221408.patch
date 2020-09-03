@@ -1,0 +1,51 @@
+# HG changeset patch
+# User stuefe
+# Date 1553844993 -3600
+#      Fri Mar 29 08:36:33 2019 +0100
+# Node ID c96b206abc2c64ea20ab786f75911f02b5ac7679
+# Parent  4b0aa85a95653f44cc45f2ec0571153017ebbf03
+8221408: Windows 32bit build build errors/warnings in hotspot
+Reviewed-by: kbarrett, dholmes
+
+diff --git a/src/os_cpu/windows_x86/vm/os_windows_x86.cpp b/src/os_cpu/windows_x86/vm/os_windows_x86.cpp
+--- a/src/os_cpu/windows_x86/vm/os_windows_x86.cpp
++++ b/src/os_cpu/windows_x86/vm/os_windows_x86.cpp
+@@ -451,6 +451,8 @@
+ }
+ 
+ #ifndef AMD64
++// Ignore "C4172: returning address of local variable or temporary" on 32bit
++#pragma warning( disable : 4172 )
+ // Returns an estimate of the current stack pointer. Result must be guaranteed
+ // to point into the calling threads stack, and be no lower than the current
+ // stack pointer.
+diff --git a/src/share/vm/oops/markOop.hpp b/src/share/vm/oops/markOop.hpp
+--- a/src/share/vm/oops/markOop.hpp
++++ b/src/share/vm/oops/markOop.hpp
+@@ -138,23 +138,15 @@
+          epoch_mask_in_place      = epoch_mask << epoch_shift,
+          cms_mask                 = right_n_bits(cms_bits),
+          cms_mask_in_place        = cms_mask << cms_shift
+-#ifndef _WIN64
+-         ,hash_mask               = right_n_bits(hash_bits),
+-         hash_mask_in_place       = (address_word)hash_mask << hash_shift
+-#endif
+   };
+ 
++  const static uintptr_t hash_mask = right_n_bits(hash_bits);
++  const static uintptr_t hash_mask_in_place = hash_mask << hash_shift;
++
+   // Alignment of JavaThread pointers encoded in object header required by biased locking
+   enum { biased_lock_alignment    = 2 << (epoch_shift + epoch_bits)
+   };
+ 
+-#ifdef _WIN64
+-    // These values are too big for Win64
+-    const static uintptr_t hash_mask = right_n_bits(hash_bits);
+-    const static uintptr_t hash_mask_in_place  =
+-                            (address_word)hash_mask << hash_shift;
+-#endif
+-
+   enum { locked_value             = 0,
+          unlocked_value           = 1,
+          monitor_value            = 2,
