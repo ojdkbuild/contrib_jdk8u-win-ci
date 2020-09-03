@@ -46,7 +46,7 @@ install:
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/jdk"
   - hg id
-  - hg import "c:/projects/jdk8u-win-ci/8202076_8u.patch"
+  - hg import "c:/projects/jdk8u-win-ci/8202076_8u_c89.patch"
   - hg status
   - cd "c:/projects/jdk8u-jdk8u-dev/langtools"
   - hg id

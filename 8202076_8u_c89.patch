@@ -1,16 +1,6 @@
-
-# HG changeset patch
-# User bpb
-# Date 1527031171 25200
-# Node ID 7b259287cdd20f6ef907d8c0f07ff195e3c00579
-# Parent  408021edf22f73d1082d1294bf79edd60d6ca1c5
-8202076: test/jdk/java/io/File/WinSpecialFiles.java on windows with VS2017
-Summary: If all other means to obtain the file length fail, fall back to FindFirstFile
-Reviewed-by: igerasim, alanb
-
-diff -r 408021edf22f -r 7b259287cdd2 src/windows/native/java/io/WinNTFileSystem_md.c
---- a/src/windows/native/java/io/WinNTFileSystem_md.c	Wed May 23 00:21:58 2018 +0200
-+++ b/src/windows/native/java/io/WinNTFileSystem_md.c	Tue May 22 16:19:31 2018 -0700
+diff -r 4546aa3faf37 src/windows/native/java/io/WinNTFileSystem_md.c
+--- a/src/windows/native/java/io/WinNTFileSystem_md.c	Mon Aug 31 06:57:19 2020 +0100
++++ b/src/windows/native/java/io/WinNTFileSystem_md.c	Thu Sep 03 15:57:10 2020 +0100
 @@ -1,5 +1,5 @@
  /*
 - * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
@@ -26,7 +16,7 @@ diff -r 408021edf22f -r 7b259287cdd2 src/windows/native/java/io/WinNTFileSystem_
  
  #include "jni.h"
  #include "io_util.h"
-@@ -527,13 +528,40 @@
+@@ -525,13 +526,40 @@
          }
      } else {
          if (GetLastError() == ERROR_SHARING_VIOLATION) {
@@ -50,12 +40,12 @@ diff -r 408021edf22f -r 7b259287cdd2 src/windows/native/java/io/WinNTFileSystem_
 +                     FILE_ATTRIBUTE_REPARSE_POINT) == 0) {
 +                    WCHAR backslash = L'\\';
 +                    WCHAR *pslash = wcsrchr(pathbuf, backslash);
++                    WCHAR *fslash = wcsrchr(fileData.cFileName, backslash);
 +                    if (pslash == NULL) {
 +                        pslash = pathbuf;
 +                    } else {
 +                        pslash++;
 +                    }
-+                    WCHAR *fslash = wcsrchr(fileData.cFileName, backslash);
 +                    if (fslash == NULL) {
 +                        fslash = fileData.cFileName;
 +                    } else {
@@ -74,9 +64,9 @@ diff -r 408021edf22f -r 7b259287cdd2 src/windows/native/java/io/WinNTFileSystem_
              }
          }
      }
-diff -r 408021edf22f -r 7b259287cdd2 test/java/io/File/WinSpecialFiles.java
---- a/test/java/io/File/WinSpecialFiles.java	Wed May 23 00:21:58 2018 +0200
-+++ b/test/java/io/File/WinSpecialFiles.java	Tue May 22 16:19:31 2018 -0700
+diff -r 4546aa3faf37 test/java/io/File/WinSpecialFiles.java
+--- a/test/java/io/File/WinSpecialFiles.java	Mon Aug 31 06:57:19 2020 +0100
++++ b/test/java/io/File/WinSpecialFiles.java	Thu Sep 03 15:57:10 2020 +0100
 @@ -1,5 +1,5 @@
  /*
 - * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
@@ -105,4 +95,3 @@ diff -r 408021edf22f -r 7b259287cdd2 test/java/io/File/WinSpecialFiles.java
                  }
              }
          }
-
