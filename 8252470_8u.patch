@@ -1,0 +1,38 @@
+
+# HG changeset patch
+# User dmarkov
+# Date 1598685018 -3600
+# Node ID 5870df313be14b9b02fd319a822afa30d4fdf39a
+# Parent  7fd00a1d0e82d65d68d4b12e87a96529d3402242
+8252470: java/awt/dnd/DisposeFrameOnDragCrash/DisposeFrameOnDragTest.java fails on Windows
+Reviewed-by: serb, prr
+
+diff -r 7fd00a1d0e82 -r 5870df313be1 src/windows/native/sun/windows/awt_Toolkit.cpp
+--- a/src/windows/native/sun/windows/awt_Toolkit.cpp	Sat Aug 29 11:14:49 2020 +0530
++++ b/src/windows/native/sun/windows/awt_Toolkit.cpp	Sat Aug 29 08:10:18 2020 +0100
+@@ -3211,10 +3211,20 @@
+  * instead of SendMessage().
+  */
+ LRESULT AwtToolkit::InvokeInputMethodFunction(UINT msg, WPARAM wParam, LPARAM lParam) {
+-    CriticalSection::Lock lock(m_inputMethodLock);
+-    if (PostMessage(msg, wParam, lParam)) {
+-        ::WaitForSingleObject(m_inputMethodWaitEvent, INFINITE);
+-        return m_inputMethodData;
++    /*
++     * DND runs on the main thread. So it is  necessary to use SendMessage() to call an IME
++     * function once the DND is active; otherwise a hang is possible since DND may wait for
++     * the IME completion.
++     */
++    if (isInDoDragDropLoop) {
++        return SendMessage(msg, wParam, lParam);
++    } else {
++        CriticalSection::Lock lock(m_inputMethodLock);
++        if (PostMessage(msg, wParam, lParam)) {
++            ::WaitForSingleObject(m_inputMethodWaitEvent, INFINITE);
++            return m_inputMethodData;
++        }
++        return 0;
+     }
+-    return 0;
+ }
++
