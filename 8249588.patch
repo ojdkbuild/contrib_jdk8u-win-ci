@@ -1,0 +1,55 @@
+# HG changeset patch
+# User mbaesken
+# Date 1594885968 -7200
+#      Thu Jul 16 09:52:48 2020 +0200
+# Node ID 5105bf00eb60e811eb7b378ab43dd26044cb7705
+# Parent  c3057fb0470e57fc7733434e3ff7f8cc889b6537
+8249588: libwindowsaccessbridge issues on 64bit Windows
+Reviewed-by: arapte, prr
+
+diff --git a/src/windows/native/sun/bridge/WinAccessBridge.cpp b/src/windows/native/sun/bridge/WinAccessBridge.cpp
+--- a/src/windows/native/sun/bridge/WinAccessBridge.cpp
++++ b/src/windows/native/sun/bridge/WinAccessBridge.cpp
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright (c) 2005, 2019, Oracle and/or its affiliates. All rights reserved.
++ * Copyright (c) 2005, 2020, Oracle and/or its affiliates. All rights reserved.
+  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  *
+  * This code is free software; you can redistribute it and/or modify it
+@@ -168,7 +168,7 @@
+      * Our window proc
+      *
+      */
+-    BOOL CALLBACK AccessBridgeDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam) {
++    BOOL CALLBACK AccessBridgeDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+         COPYDATASTRUCT *sentToUs;
+         char *package;
+ 
+diff --git a/src/windows/native/sun/bridge/WinAccessBridge.h b/src/windows/native/sun/bridge/WinAccessBridge.h
+--- a/src/windows/native/sun/bridge/WinAccessBridge.h
++++ b/src/windows/native/sun/bridge/WinAccessBridge.h
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
++ * Copyright (c) 2005, 2020, Oracle and/or its affiliates. All rights reserved.
+  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  *
+  * This code is free software; you can redistribute it and/or modify it
+@@ -43,15 +43,10 @@
+                         LPVOID lpvReserved);
+     void AppendToCallOutput(char *s);
+     BOOL CALLBACK AccessBridgeDialogProc(HWND hDlg, UINT message,
+-                                         UINT wParam, LONG lParam);
++                                         WPARAM wParam, LPARAM lParam);
+     HWND getTopLevelHWND(HWND descendent);
+ }
+ 
+-LRESULT CALLBACK WinAccessBridgeWindowProc(HWND hWnd, UINT message,
+-                                           UINT wParam, LONG lParam);
+-
+-BOOL CALLBACK DeleteItemProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam);
+-
+ /**
+  * The WinAccessBridge class.  The core of the Windows AT AccessBridge dll
+  */

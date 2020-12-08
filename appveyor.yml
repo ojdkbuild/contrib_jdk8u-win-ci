@@ -44,6 +44,8 @@ install:
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/jdk"
   - hg id
+  - hg import "c:/projects/jdk8u-win-ci/8225805.patch"
+  - hg import "c:/projects/jdk8u-win-ci/8249588.patch"
   - cd "c:/projects/jdk8u-jdk8u-dev/langtools"
   - hg id
   - cd "c:/projects/jdk8u-jdk8u-dev/nashorn"

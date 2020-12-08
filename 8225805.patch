@@ -1,0 +1,21 @@
+# HG changeset patch
+# User pbansal
+# Date 1568197707 -19800
+#      Wed Sep 11 15:58:27 2019 +0530
+# Node ID dd1e7ac57f76a149573a40fb57d38bee13de2db7
+# Parent  c3057fb0470e57fc7733434e3ff7f8cc889b6537
+8225805: Java Access Bridge does not close the logger
+Reviewed-by: dmarkov, jdv
+
+diff --git a/src/windows/native/sun/bridge/WinAccessBridge.cpp b/src/windows/native/sun/bridge/WinAccessBridge.cpp
+--- a/src/windows/native/sun/bridge/WinAccessBridge.cpp
++++ b/src/windows/native/sun/bridge/WinAccessBridge.cpp
+@@ -296,7 +296,7 @@
+ 
+     PrintDebugString("[INFO]:   finished deleting eventHandler, messageQueue, and javaVMs");
+     PrintDebugString("[INFO]: GOODBYE CRUEL WORLD...");
+-
++    finalizeFileLogger();
+     DestroyWindow(theDialogWindow);
+ }
+ 
