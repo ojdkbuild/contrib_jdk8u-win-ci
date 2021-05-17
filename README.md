@@ -19,4 +19,3 @@ Intended usage for testing patches on top of 8u-dev tip:
 
 6. adjust build settings (debug level, bootcyle etc) as needed
 
-
